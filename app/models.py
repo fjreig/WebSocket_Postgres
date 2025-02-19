@@ -3,7 +3,7 @@ from datetime import datetime
 
 from app.database import Base, session, engine
 
-class BlogPost(Base):
+class AARR(Base):
     __tablename__ = "aarr"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -28,9 +28,14 @@ class BlogPost(Base):
     ea_export = Column(Float)
     eq_export = Column(Float)
 
-# Creating new tables
-#Base.metadata.create_all(engine)
+def get_all():
+    result = session.query(AARR).limit(5).all()
+    return(result)
 
-def get_all_posts():
-    result = session.query(BlogPost).limit(5).all()
+def Informe_Mensual():
+    result = session.query(AARR).limit(5).all()
+    return(result)
+
+def InformeAnual():
+    result = session.query(AARR).limit(5).all()
     return(result)

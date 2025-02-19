@@ -4,7 +4,7 @@ from fasthtml.common import *
 import json
 
 from app.src import Generar_Informe_Mensual, Generar_Informe_Anual
-from app.models import get_all_posts
+from app.models import get_all
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), )
 
@@ -28,7 +28,7 @@ def home():
 
 async def ws(msg:str):
     if msg == "Informe":
-        posts = get_all_posts()
+        data = get_all()
         table_div = Main(
             Container(
                 Table(
@@ -43,13 +43,13 @@ async def ws(msg:str):
                     ),  
                     Tbody(  
                         Tr(
-                            Td(post.fecha, form="create-form"),
-                            Td(post.v1, form="create-form"),
-                            Td(post.v2, form="create-form"),
-                            Td(post.v3, form="create-form"),
-                            Td(post.pa, form="create-form"),
-                            id=f"blog-{post.id}"
-                    )  for post in posts),
+                            Td(valor.fecha, form="create-form"),
+                            Td(valor.v1, form="create-form"),
+                            Td(valor.v2, form="create-form"),
+                            Td(valor.v3, form="create-form"),
+                            Td(valor.pa, form="create-form"),
+                            id=f"aarr-{valor.id}"
+                    )  for valor in data),
                 ),
             )
         )
