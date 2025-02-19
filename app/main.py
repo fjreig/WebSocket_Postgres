@@ -21,7 +21,7 @@ msgs = []
 @rt('/')
 def home():
     cts = Div(hx_ext='ws', ws_connect='/ws')(
-        Div(Ul(*[Li(m) for m in msgs], id='msg-list')),
+        Div(id='msg-list'),
         Form(Input(id='msg'), id='form', ws_send=True)
     )
     return Titled('Websocket Test', cts)
@@ -30,31 +30,28 @@ async def ws(msg:str):
     if msg == "Informe":
         data = get_all()
         table_div = Main(
-            Container(
-                Table(
-                    Thead(
-                        Tr(  
-                            Th("Fecha", scope="col"),
-                            Th("V1", scope="col"),
-                            Th("V2", scope="col"),
-                            Th("V3", scope="col"),
-                            Th("PA", scope="col"),
-                        ),  
+            Table(
+                Thead(
+                    Tr(  
+                        Th("Fecha", scope="col"),
+                        Th("V1", scope="col"),
+                        Th("V2", scope="col"),
+                        Th("V3", scope="col"),
+                        Th("PA", scope="col"),
                     ),  
-                    Tbody(  
-                        Tr(
-                            Td(valor.fecha, form="create-form"),
-                            Td(valor.v1, form="create-form"),
-                            Td(valor.v2, form="create-form"),
-                            Td(valor.v3, form="create-form"),
-                            Td(valor.pa, form="create-form"),
-                            id=f"aarr-{valor.id}"
-                    )  for valor in data),
-                ),
-            )
+                ),  
+                Tbody(  
+                    Tr(
+                        Td(valor.fecha, form="create-form"),
+                        Td(valor.v1, form="create-form"),
+                        Td(valor.v2, form="create-form"),
+                        Td(valor.v3, form="create-form"),
+                        Td(valor.pa, form="create-form"),
+                        id=f"aarr-{valor.id}"
+                )  for valor in data),
+            ),
         )
-        await send(Ul(table_div, id='msg-list'))
-    #await send(Ul(*[Li(m) for m in msgs], id='msg-list'))
+        await send(Container(table_div, id='msg-list'))
 
 send = setup_ws(app, ws)
 
