@@ -4,7 +4,7 @@ from fasthtml.common import *
 import json
 
 from app.src import Generar_Informe_Mensual, Generar_Informe_Anual
-from app.models import get_all
+from app.models import get_all, Informe_Mensual, InformeAnual
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), )
 
@@ -88,12 +88,12 @@ def tabla():
 
 @app.get("/Infome_Mensual/{year}/{month}")
 def informe_mensual(year: int, month: int):
-    data = Generar_Informe_Mensual(year, month)
+    data = Informe_Mensual(year, month)
     return(data)
 
 @app.get("/Infome_Anual/{year}")
 def informe_anual(year: int):
-    data = Generar_Informe_Anual(year)
+    data = InformeAnual(year)
     return(data)
 
 serve()
