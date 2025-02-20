@@ -1,9 +1,7 @@
 from fasthtml import FastHTML
 from pathlib import Path
 from fasthtml.common import *
-import json
 
-from app.src import Generar_Informe_Mensual, Generar_Informe_Anual
 from app.models import get_all, Informe_Mensual, InformeAnual
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), )
