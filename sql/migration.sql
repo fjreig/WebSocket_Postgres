@@ -1,4 +1,4 @@
--- create the table
+-- create the table aarr
 CREATE TABLE IF NOT EXISTS public.aarr
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -25,6 +25,26 @@ CREATE TABLE IF NOT EXISTS public.aarr
     PRIMARY KEY (id)
 );
 
+-- create the table tickets
+CREATE TABLE IF NOT EXISTS public.tickets
+(
+    id serial,
+	fechacreacion timestamp,
+ 	fechamodificacion timestamp,
+	id_ticket varchar,
+    titulo varchar,
+    descripcion varchar,
+    estado varchar,
+    step int,
+    departmento varchar,
+    PRIMARY KEY (id)
+);
+
+-- Data
+
+INSERT INTO public.tickets (fechacreacion,fechamodificacion,id_ticket,titulo,descripcion,estado,step,departmento) VALUES
+	 ('2025-01-09 16:52:43','2025-01-09 16:52:43','TK-1001','Cloud Storage Access Error','Unable to access cloud storage with persistent authorization errors. Multiple users affected across marketing department','Alta',4,'IT Support'),
+	 ('2025-01-09 16:52:43','2025-01-09 16:52:43','TK-1002','Office Equipment Setup','Unable to access cloud storage with persistent authorization errors. Multiple users affected across marketing department','Media',2,'IT Support');
 
 INSERT INTO public.aarr (fecha,v1,i1,pa1,v2,i2,pa2,v3,i3,pa3,pa,fp,frec,v12,v23,v31,ea_import,eq_import,ea_export,eq_export) VALUES
 	 ('2025-01-09 16:52:43',234.0,0.0,0.0,232.7,0.0,0.0,234.6,0.0,0.0,0.0,0.0,50.01,403.8,404.8,405.9,5814.0,445.0,2.0,15.0),

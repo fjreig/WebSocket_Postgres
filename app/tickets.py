@@ -4,24 +4,26 @@ from monsterui.all import *
 from datetime import datetime
 import json
 
+from app.models import get_all_tickets
+
 app, rt = fast_app(hdrs=Theme.blue.headers(daisy=True))
 
 def TicketSteps(step):
     return Steps(
-        LiStep("Submitted", data_content="📝",
+        LiStep("Creado", data_content="📝",
                cls=StepT.success if step > 0 else StepT.primary if step == 0 else StepT.neutral),
-        LiStep("In Review", data_content="🔎",
+        LiStep("En revisión", data_content="🔎",
                cls=StepT.success if step > 1 else StepT.primary if step == 1 else StepT.neutral),
-        LiStep("Processing", data_content="⚙️",
+        LiStep("En proceso", data_content="⚙️",
                cls=StepT.success if step > 2 else StepT.primary if step == 2 else StepT.neutral),
-        LiStep("Resolved", data_content="✅",
+        LiStep("Resuelto", data_content="✅",
                cls=StepT.success if step > 3 else StepT.primary if step == 3 else StepT.neutral),
         cls="w-full")
 
 def StatusBadge(status):
-    styles = {'high': AlertT.error, 'medium': AlertT.warning,'low': AlertT.info}
+    styles = {'Alta': AlertT.error, 'Media': AlertT.warning,'Baja': AlertT.info}
     alert_type = styles.get(status, AlertT.info)
-    return Alert(f"{status.title()} Priority", cls=(alert_type,"w-32 shadow-sm"))
+    return Alert(f"Prioridad {status.title()}", cls=(alert_type,"w-32 shadow-sm"))
 
 def TicketCard(id, title, description, status, step, department):
     return Card(
@@ -49,31 +51,27 @@ def TicketCard(id, title, description, status, step, department):
 
 def NewTicketModal():
     return Modal(
-        ModalHeader(H3("Create New Support Ticket")),
+        ModalHeader(H3("Crear nuevo ticket de Soporte")),
         ModalBody(
-            Alert(
-                DivLAligned(UkIcon("info"), Span("Please provide as much detail as possible to help us assist you quickly.")),
-                cls=(AlertT.info,"mb-4")),
             Form(
-                Grid(LabelInput("Title", id="title", placeholder="Brief description of your issue"),
-                    LabelSelect(Options("IT Support", "HR", "Facilities", "Finance"), label="Department", id="department")),
-                    LabelSelect(Options("Low", "Medium", "High"), label="Priority Level",  id="priority"),
-                    LabelTextArea("Description", id="description", placeholder="Please provide detailed information about your issue"),
+                Grid(LabelInput("Titulo", id="title", placeholder="Breve descripción de la averia"),
+                    LabelSelect(*map(Option,("IT Support", "HR", "Facilities", "Finance")), placeholder="Selecciona un departamento", label="Departamento",  id="department")),
+                    LabelSelect(*map(Option,("Baja", "Media", "Alta")), placeholder="Selecciona un nivel de Prioridad", label="Nivel de Prioridad",  id="priority"),
+                    LabelTextArea("Descripcion", id="description", placeholder="Descripcion detallada de la averia"),
                     DivRAligned(
-                        Button("Cancel", cls=ButtonT.ghost, data_uk_toggle="target: #new-ticket"),
-                        Button("Submit Ticket", cls=ButtonT.primary, data_uk_toggle="target: #success-toast; target: #new-ticket")
+                        Button("Cancelar", cls=ButtonT.ghost, data_uk_toggle="target: #new-ticket"),
+                        Button("Crear", cls=ButtonT.primary, data_uk_toggle="target: #success-toast; target: #new-ticket")
                 ),
             cls='space-y-8')),
         id="new-ticket")
 
 def consultar_tickets():
-    with open('app/data/tickets.json', 'r') as f: tickets     = json.load(f)
-
+    tickets = get_all_tickets()
     return Title("Help Desk Dashboard"), Container(
         Section(
             DivFullySpaced(
-                H2("Active Tickets"),
-                Button(UkIcon("plus-circle", cls="mr-2"), "New Ticket", cls=ButtonT.primary, data_uk_toggle="target: #new-ticket"),
+                H2("Tickets Activos"),
+                Button(UkIcon("plus-circle", cls="mr-2"), "Nuevo Ticket", cls=ButtonT.primary, data_uk_toggle="target: #new-ticket"),
                 cls='mb-8'),
             Grid(*[TicketCard(**ticket) for ticket in tickets], cols=1),
             cls="my-6"),
