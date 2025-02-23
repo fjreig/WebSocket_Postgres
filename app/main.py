@@ -10,7 +10,6 @@ from app.table import Generar_tabla_Informe, tabla_prueba
 from app.graficos import generate_chart1, generate_chart2
 
 from app.lista import page_heading, tasks_ui, CreateTaskModal
-from app.tickets import consultar_tickets
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), altair_headers, Theme.blue.headers())
 
@@ -89,10 +88,6 @@ def index():
 @rt('/lista')
 def index():
     return Container(page_heading, tasks_ui, CreateTaskModal())
-
-@rt('/ticket')
-def index():
-    return consultar_tickets()
 
 @app.get("/Infome_Mensual/{year}/{month}")
 def informe_mensual(year: int, month: int):
