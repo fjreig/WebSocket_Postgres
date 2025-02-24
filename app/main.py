@@ -9,7 +9,7 @@ from app.models import Informe_Mensual, InformeAnual
 from app.table import Generar_tabla_Informe, tabla_prueba
 from app.graficos import generate_chart1, generate_chart2
 
-from app.lista import page_heading, tasks_ui, CreateTaskModal
+from app.dashboard import Generar_Dashboard
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), altair_headers, Theme.blue.headers())
 
@@ -85,10 +85,9 @@ def index():
             Container(Grid(sidebar, *stats, *chart_cards, cols=5))
     )
 
-@rt('/lista')
+@rt('/dashboard')
 def index():
-    return Container(page_heading, tasks_ui, CreateTaskModal())
-
+    return Generar_Dashboard()
 @app.get("/Infome_Mensual/{year}/{month}")
 def informe_mensual(year: int, month: int):
     data = Informe_Mensual(year, month)
